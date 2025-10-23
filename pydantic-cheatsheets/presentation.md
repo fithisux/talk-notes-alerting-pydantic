@@ -4,14 +4,21 @@ _class: lead
 paginate: true
 backgroundColor: #fff
 marp: true
-backgroundImage: file('./AA_Logo.jpg')
 ---
 
 ![bg left:20% 80%](./AA_Logo.jpg)
 
 # Pydantic quick tutorial
 
-## Why we need Pydantic
+_Presenter_ : 
+
+Vasileios (Vasilis) Anagnostopoulos
+
+---
+
+![bg left:20% 80%](./AA_Logo.jpg)
+
+# Why we need Pydantic
 
 1. Let's do some **dataclass demo**
 2. Pydantic exploits type annotations to infer types (bronze style)
