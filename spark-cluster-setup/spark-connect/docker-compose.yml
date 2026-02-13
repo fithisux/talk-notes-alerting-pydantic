@@ -1,0 +1,53 @@
+services:
+  spark-master:
+    image: "apache/spark:4.0.1-scala2.13-java17-python3-r-ubuntu"
+    container_name: spark-master
+    hostname: spark-master
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./localvolumes/all_logs:/opt/spark/logs
+      - ./localvolumes/all_conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf  
+    command: 
+      - "bash"
+      - "-c"
+      - "/opt/spark/sbin/start-master.sh --host spark-master && tail -f /dev/null"
+    networks:
+      - spark-stack
+  spark-worker:
+    image: "apache/spark:4.0.1-scala2.13-java17-python3-r-ubuntu"
+    container_name: spark-worker
+    hostname: spark-worker
+    volumes:    
+      - ./localvolumes/all_logs:/opt/spark/logs
+      - ./localvolumes/all_conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+      - ./localvolumes/sc-work-dir:/opt/spark/work-dir:rw      
+    command: 
+      - "bash"
+      - "-c"
+      - "/opt/spark/sbin/start-worker.sh spark://spark-master:7077 --host spark-worker  && tail -f /dev/null"      
+    networks:
+      - spark-stack
+  spark-connect:
+    image: "apache/spark:4.0.1-scala2.13-java17-python3-r-ubuntu"
+    container_name: spark-connect
+    hostname: spark-connect
+    ports:
+      - "4040:4040"
+      - "15002:15002"
+    depends_on:
+      - spark-master
+    volumes:
+      - ./localvolumes/jars/spark-connect_2.13-4.0.1.jar:/opt/spark/jars/spark-connect_2.13-4.0.1.jar
+      - ./localvolumes/sc-work-dir:/opt/spark/work-dir:rw
+      - ./localvolumes/all_logs:/opt/spark/logs
+      - ./localvolumes/all_conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf      
+    command: 
+      - "bash"
+      - "-c"
+      - "/opt/spark/sbin/start-connect-server.sh --jars /opt/spark/jars/spark-connect_2.13-4.0.1.jar && tail -f /dev/null"
+    networks:
+    - spark-stack
+  
+networks:
+  spark-stack:
