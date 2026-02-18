@@ -18,7 +18,7 @@ RUN wget --no-verbose -O apache-spark.tgz "https://archive.apache.org/dist/spark
 ENV SPARK_HOME=/opt/spark
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 
-WORKDIR /opt/spark/
+WORKDIR /opt/spark/work-dir
 
 ENV PATH=$SPARK_HOME/bin:$JAVA_HOME/bin:$PATH
 

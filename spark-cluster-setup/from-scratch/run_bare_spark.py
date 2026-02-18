@@ -8,7 +8,7 @@ df = spark.range(10)
 
 df.show()
 
-df.write.csv("work-dir/dddd.csv")
+df.write.csv("dddd.csv")
 
 # df.show()
 

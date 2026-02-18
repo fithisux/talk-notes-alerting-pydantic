@@ -22,6 +22,8 @@ It has been tested with Rancher Desktop on Windows
 
 First build your image:
 
+(you may need to run `dos2unix` command on `start-spark.sh`)
+
 ```sh
 docker build -t my/spark .
 ```
