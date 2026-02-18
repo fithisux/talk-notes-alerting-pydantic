@@ -24,15 +24,31 @@ First build your image:
 
 (you may need to run `dos2unix` command on `start-spark.sh`)
 
+**Docker**
+
 ```sh
 docker build -t my/spark .
+```
+
+**Podman**
+
+```sh
+podman build -t my/spark .
 ```
 
 
 The final step to create your test cluster will be to run the compose file so as to start the cluster:
 
+**Docker**
+
 ```sh
-docker-compose up -d
+docker compose up -d
+```
+
+**Podman**
+
+```sh
+podman compose up -d
 ```
 
 ## Run your first spark app on the cluster
@@ -41,11 +57,20 @@ Create in the root folder a new folder called `result-dir`
 
 First, run a spark driver container with the correct files linked.
 
+**Docker**
+
 ```
 docker run -it --network=app-tier -v %cd%/result-dir:/opt/spark/work-dir:rw -v %cd%\conf\spark-defaults.conf:/opt/spark/conf/spark-defaults.conf -v %cd%\run_bare_spark.py:/opt/spark/run_bare_spark.py my/spark bash
 ```
 
-And the submit your job.
+
+**Podman**
+
+```
+podman  run -it --network=app-tier -v ./result-dir:/opt/spark/work-dir:rw -v ./conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf -v ./run_bare_spark.py:/opt/spark/run_bare_spark.py my/spark bash
+```
+
+And then submit your job.
 
 ```
 /opt/spark/bin/spark-submit  /opt/spark/run_bare_spark.py
